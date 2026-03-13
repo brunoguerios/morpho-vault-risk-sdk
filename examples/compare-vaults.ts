@@ -3,6 +3,9 @@
  *
  * Demonstrates how to use `compareVaults` to rank multiple vaults
  * across different risk metrics. Rank 1 = best (least risky).
+ * 
+ * Usage:
+ *   npx tsx examples/compare-vaults.ts
  */
 import { type Address } from "@morpho-org/blue-sdk";
 import { compareVaults } from "../src/index.js";

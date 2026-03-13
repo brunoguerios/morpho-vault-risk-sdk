@@ -4,6 +4,9 @@
  * Shows how to use individual metric functions when you only need
  * a subset of the full analysis. This avoids computing unnecessary
  * metrics and keeps the result types focused.
+ * 
+ * Usage:
+ *   npx tsx examples/selective-metrics.ts
  */
 import {
 	computeConcentration,

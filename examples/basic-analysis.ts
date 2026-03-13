@@ -3,6 +3,9 @@
  *
  * Demonstrates how to use `analyzeVault` to compute all risk metrics
  * for a single Morpho vault in one call.
+ * 
+ * Usage:
+ *   npx tsx examples/basic-analysis.ts
  */
 import { analyzeVault } from "../src/index.js";
 import { createMockVault, randomAddress } from "../test/fixtures.js";
