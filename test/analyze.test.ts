@@ -41,9 +41,9 @@ describe("analyzeVault", () => {
 
 		// 3 markets should give concentration < 1
 		expect(result.concentration.activeMarketCount).toBe(3);
-		expect(result.concentration.hhi).toBeLessThan(1);
+		expect(result.concentration.squaredProportionsSum).toBeLessThan(1);
 
-		// 3 different collaterals should give diversity HHI < 1
+		// 3 different collaterals should give diversity squaredProportionsSum < 1
 		expect(result.collateralDiversity.distinctCount).toBe(3);
 	});
 });

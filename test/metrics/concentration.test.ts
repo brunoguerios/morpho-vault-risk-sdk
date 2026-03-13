@@ -6,29 +6,29 @@ import { createMockVault, resetAddressCounter } from "../fixtures.js";
 describe("computeConcentration", () => {
 	beforeEach(() => resetAddressCounter());
 
-	test("single market vault has HHI = 1", () => {
+	test("single market vault has squaredProportionsSum = 1", () => {
 		const vault = createMockVault({
 			allocations: [{ market: {} }],
 		});
 
 		const result = computeConcentration(vault);
-		expect(result.hhi).toBeCloseTo(1, 5);
+		expect(result.squaredProportionsSum).toBeCloseTo(1, 5);
 		expect(result.activeMarketCount).toBe(1);
 		expect(result.effectiveMarketCount).toBeCloseTo(1, 5);
 	});
 
-	test("two equal markets have HHI ~ 0.5", () => {
+	test("two equal markets have squaredProportionsSum ~ 0.5", () => {
 		const vault = createMockVault({
 			allocations: [{ market: {} }, { market: {} }],
 		});
 
 		const result = computeConcentration(vault);
-		expect(result.hhi).toBeCloseTo(0.5, 2);
+		expect(result.squaredProportionsSum).toBeCloseTo(0.5, 2);
 		expect(result.activeMarketCount).toBe(2);
 		expect(result.effectiveMarketCount).toBeCloseTo(2, 2);
 	});
 
-	test("four equal markets have HHI ~ 0.25", () => {
+	test("four equal markets have squaredProportionsSum ~ 0.25", () => {
 		const vault = createMockVault({
 			allocations: [
 				{ market: {} },
@@ -39,11 +39,11 @@ describe("computeConcentration", () => {
 		});
 
 		const result = computeConcentration(vault);
-		expect(result.hhi).toBeCloseTo(0.25, 2);
+		expect(result.squaredProportionsSum).toBeCloseTo(0.25, 2);
 		expect(result.effectiveMarketCount).toBeCloseTo(4, 2);
 	});
 
-	test("unequal allocations have HHI > equal case", () => {
+	test("unequal allocations have squaredProportionsSum > equal case", () => {
 		const big = 9_000_000_000_000n;
 		const small = 1_000_000_000_000n;
 		const vault = createMockVault({
@@ -60,9 +60,9 @@ describe("computeConcentration", () => {
 		});
 
 		const result = computeConcentration(vault);
-		expect(result.hhi).toBeGreaterThan(0.5);
-		expect(result.marketProportions[0]?.proportion).toBeGreaterThan(
-			result.marketProportions[1]?.proportion,
+		expect(result.squaredProportionsSum).toBeGreaterThan(0.5);
+		expect(result.marketProportions[0]!.proportion).toBeGreaterThan(
+			result.marketProportions[1]!.proportion,
 		);
 	});
 
@@ -83,8 +83,8 @@ describe("computeConcentration", () => {
 		});
 
 		const result = computeConcentration(vault);
-		expect(result.marketProportions[0]?.proportion).toBeGreaterThan(
-			result.marketProportions[1]?.proportion,
+		expect(result.marketProportions[0]!.proportion).toBeGreaterThan(
+			result.marketProportions[1]!.proportion,
 		);
 	});
 

@@ -9,7 +9,7 @@ import type {
 
 /**
  * Rank vaults by a numeric extractor. Lower value = better rank (rank 1).
- * For metrics where higher is worse (e.g., HHI), pass the value directly.
+ * For metrics where higher is worse (e.g., squaredProportionsSum), pass the value directly.
  * For metrics where higher is better (e.g., liquidity), pass the negated value.
  */
 function rank(
@@ -28,7 +28,7 @@ function rank(
  * Rankings are objective — no subjective weighting is applied.
  *
  * Ranking logic per metric:
- * - concentration: lower HHI = better (more diversified)
+ * - concentration: lower squaredProportionsSum = better (more diversified)
  * - liquidityCoverage: higher ratio = better (more liquid)
  * - lltv: lower weighted avg = better (more conservative)
  * - oracleDiversity: more distinct oracles = better
@@ -40,8 +40,8 @@ export function compareVaults(vaults: AccrualVault[]): VaultComparison {
 	return {
 		vaults: analyses,
 		rankings: {
-			// Lower HHI = more diversified = better
-			concentration: rank(analyses, (a) => a.concentration.hhi),
+			// Lower squaredProportionsSum = more diversified = better
+			concentration: rank(analyses, (a) => a.concentration.squaredProportionsSum),
 			// Higher liquidity ratio = better (negate for ascending sort)
 			liquidityCoverage: rank(analyses, (a) => -a.liquidityCoverage.ratio),
 			// Lower weighted avg LLTV = more conservative = better

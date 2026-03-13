@@ -4,10 +4,10 @@ import { ZeroTotalAssetsError } from "../errors.js";
 import type { ConcentrationAnalysis } from "../types.js";
 
 /**
- * Computes the Herfindahl-Hirschman Index (HHI) over a vault's market allocations.
+ * Computes market concentration via the sum of squared allocation proportions.
  *
- * HHI = 0 means perfectly diversified, HHI = 1 means single-market concentration.
- * effectiveMarketCount = 1/HHI gives the equivalent number of equally-weighted markets.
+ * squaredProportionsSum = 0 means perfectly diversified, 1 means single-market concentration.
+ * effectiveMarketCount = 1/squaredProportionsSum gives the equivalent number of equally-weighted markets.
  *
  * @throws {ZeroTotalAssetsError} if the vault has zero total assets.
  */
@@ -34,15 +34,15 @@ export function computeConcentration(
 
 	proportions.sort((a, b) => b.proportion - a.proportion);
 
-	const hhi = proportions.reduce(
+	const squaredProportionsSum = proportions.reduce(
 		(sum, { proportion }) => sum + proportion * proportion,
 		0,
 	);
 	const activeMarketCount = proportions.length;
-	const effectiveMarketCount = hhi > 0 ? 1 / hhi : 0;
+	const effectiveMarketCount = squaredProportionsSum > 0 ? 1 / squaredProportionsSum : 0;
 
 	return {
-		hhi,
+		squaredProportionsSum,
 		activeMarketCount,
 		effectiveMarketCount,
 		marketProportions: proportions,

@@ -9,7 +9,7 @@ const COLLATERAL_B = "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" as Address;
 describe("computeCollateralDiversity", () => {
 	beforeEach(() => resetAddressCounter());
 
-	test("single collateral has HHI = 1", () => {
+	test("single collateral has squaredProportionsSum = 1", () => {
 		const vault = createMockVault({
 			allocations: [
 				{
@@ -23,12 +23,12 @@ describe("computeCollateralDiversity", () => {
 
 		const result = computeCollateralDiversity(vault);
 		expect(result.distinctCount).toBe(1);
-		expect(result.hhi).toBeCloseTo(1, 2);
+		expect(result.squaredProportionsSum).toBeCloseTo(1, 2);
 		expect(result.collaterals[0]?.marketCount).toBe(2);
 		expect(result.collaterals[0]?.lltvs).toHaveLength(2);
 	});
 
-	test("two equal collaterals have HHI = 0.5", () => {
+	test("two equal collaterals have squaredProportionsSum = 0.5", () => {
 		const vault = createMockVault({
 			allocations: [
 				{ market: { collateralToken: COLLATERAL_A } },
@@ -38,7 +38,7 @@ describe("computeCollateralDiversity", () => {
 
 		const result = computeCollateralDiversity(vault);
 		expect(result.distinctCount).toBe(2);
-		expect(result.hhi).toBeCloseTo(0.5, 2);
+		expect(result.squaredProportionsSum).toBeCloseTo(0.5, 2);
 	});
 
 	test("collaterals are sorted by proportion descending", () => {
@@ -58,8 +58,8 @@ describe("computeCollateralDiversity", () => {
 		});
 
 		const result = computeCollateralDiversity(vault);
-		expect(result.collaterals[0]?.proportion).toBeGreaterThan(
-			result.collaterals[1]?.proportion,
+		expect(result.collaterals[0]!.proportion).toBeGreaterThan(
+			result.collaterals[1]!.proportion,
 		);
 	});
 });

@@ -53,7 +53,7 @@ const result = await fetchAndCompareVaults(addresses, client);
 for (const analysis of result.vaults) {
 	const name = labels.get(analysis.vault) ?? analysis.vault;
 	console.log(`=== ${name} ===`);
-	console.log(`  Concentration HHI: ${analysis.concentration.hhi.toFixed(3)} (${analysis.concentration.activeMarketCount} markets)`);
+	console.log(`  Concentration: ${analysis.concentration.squaredProportionsSum.toFixed(3)} (${analysis.concentration.activeMarketCount} markets)`);
 	console.log(`  Liquidity ratio: ${(analysis.liquidityCoverage.ratio * 100).toFixed(1)}%`);
 	console.log(`  Utilization (weighted): ${(analysis.utilizationExposure.weightedAvg * 100).toFixed(1)}%`);
 	console.log(`  LLTV range: ${analysis.lltv.min} — ${analysis.lltv.max}`);

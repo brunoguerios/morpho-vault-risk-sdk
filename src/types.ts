@@ -1,12 +1,12 @@
 import type { Address, MarketId } from "@morpho-org/blue-sdk";
 
-/** HHI ranges from 0 (perfectly diversified) to 1 (single market). */
+/** Sum of squared proportions ranges from 0 (perfectly diversified) to 1 (single market). */
 export interface ConcentrationAnalysis {
-	/** Herfindahl-Hirschman Index, 0-1 range */
-	hhi: number;
+	/** Sum of squared market proportions (Herfindahl-Hirschman Index), 0-1 range */
+	squaredProportionsSum: number;
 	/** Number of markets with non-zero allocation */
 	activeMarketCount: number;
-	/** Equivalent number of equally-weighted markets (1/HHI) */
+	/** Equivalent number of equally-weighted markets (1/squaredProportionsSum) */
 	effectiveMarketCount: number;
 	/** Per-market proportion breakdown, sorted descending */
 	marketProportions: ReadonlyArray<{
@@ -99,8 +99,8 @@ export interface CollateralDiversityAnalysis {
 		marketCount: number;
 		lltvs: ReadonlyArray<bigint>;
 	}>;
-	/** HHI over collateral proportions, 0-1 */
-	hhi: number;
+	/** Sum of squared collateral proportions, 0-1 */
+	squaredProportionsSum: number;
 }
 
 export type TimelockTier = "none" | "short" | "medium" | "long";

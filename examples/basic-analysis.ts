@@ -54,9 +54,9 @@ const vault = createMockVault({
 const result = analyzeVault(vault);
 
 // Concentration: how diversified is the vault across markets?
-// HHI = 0 means perfectly diversified, HHI = 1 means single market.
+// squaredProportionsSum = 0 means perfectly diversified, 1 means single market.
 console.log("=== Concentration ===");
-console.log(`  HHI: ${result.concentration.hhi.toFixed(3)}`);
+console.log(`  Squared proportion sum: ${result.concentration.squaredProportionsSum.toFixed(3)}`);
 console.log(`  Active markets: ${result.concentration.activeMarketCount}`);
 console.log(`  Effective market count: ${result.concentration.effectiveMarketCount.toFixed(1)}`);
 
@@ -84,7 +84,7 @@ console.log(`  Single oracle dominant: ${result.oracle.isSingleOracleDominant}`)
 // Collateral diversity: how many different collateral tokens back the vault?
 console.log("\n=== Collateral Diversity ===");
 console.log(`  Distinct collaterals: ${result.collateralDiversity.distinctCount}`);
-console.log(`  HHI: ${result.collateralDiversity.hhi.toFixed(3)}`);
+console.log(`  Squared proportion sum: ${result.collateralDiversity.squaredProportionsSum.toFixed(3)}`);
 
 // Governance: timelock, guardian, curator, and fees
 console.log("\n=== Governance ===");

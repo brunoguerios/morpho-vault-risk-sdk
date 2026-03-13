@@ -35,9 +35,9 @@ const liquidity = computeLiquidityCoverage(vault);
 const utilization = computeUtilizationExposure(vault);
 
 // Use results for conditional risk alerts
-if (concentration.hhi > 0.5) {
+if (concentration.squaredProportionsSum > 0.5) {
 	console.log(
-		`WARNING: Vault is heavily concentrated (HHI=${concentration.hhi.toFixed(2)}, ` +
+		`WARNING: Vault is heavily concentrated (${concentration.squaredProportionsSum.toFixed(2)}, ` +
 			`${concentration.activeMarketCount} market(s))`,
 	);
 }

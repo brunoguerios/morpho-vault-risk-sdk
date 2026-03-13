@@ -8,7 +8,7 @@ import type { CollateralDiversityAnalysis } from "../types.js";
  * Uses the pre-computed `vault.collateralAllocations` map which groups markets
  * by collateral token with proportion, LLTVs, oracles, and market count.
  *
- * HHI over collateral proportions: 0 = diverse, 1 = single collateral.
+ * Sum of squared collateral proportions: 0 = diverse, 1 = single collateral.
  */
 export function computeCollateralDiversity(
 	vault: AccrualVault,
@@ -27,7 +27,7 @@ export function computeCollateralDiversity(
 
 	collaterals.sort((a, b) => b.proportion - a.proportion);
 
-	const hhi = collaterals.reduce(
+	const squaredProportionsSum = collaterals.reduce(
 		(sum, { proportion }) => sum + proportion * proportion,
 		0,
 	);
@@ -35,6 +35,6 @@ export function computeCollateralDiversity(
 	return {
 		distinctCount: collaterals.length,
 		collaterals,
-		hhi,
+		squaredProportionsSum,
 	};
 }

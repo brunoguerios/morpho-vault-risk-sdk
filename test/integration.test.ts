@@ -75,8 +75,8 @@ describe("analyzeVault — realistic scenarios", () => {
 
 		const result = analyzeVault(vault);
 
-		// Concentration: 4 equal markets → HHI ≈ 0.25
-		expect(result.concentration.hhi).toBeCloseTo(0.25, 1);
+		// Concentration: 4 equal markets → squaredProportionsSum ≈ 0.25
+		expect(result.concentration.squaredProportionsSum).toBeCloseTo(0.25, 1);
 		expect(result.concentration.activeMarketCount).toBe(4);
 		expect(result.concentration.effectiveMarketCount).toBeCloseTo(4, 0);
 
@@ -97,7 +97,7 @@ describe("analyzeVault — realistic scenarios", () => {
 
 		// Collateral: 4 distinct collaterals
 		expect(result.collateralDiversity.distinctCount).toBe(4);
-		expect(result.collateralDiversity.hhi).toBeCloseTo(0.25, 1);
+		expect(result.collateralDiversity.squaredProportionsSum).toBeCloseTo(0.25, 1);
 
 		// Governance: 7-day timelock, guardian and curator set
 		expect(result.governance.timelockTier).toBe("long");
@@ -128,7 +128,7 @@ describe("analyzeVault — realistic scenarios", () => {
 		const result = analyzeVault(vault);
 
 		// Single market → maximum concentration
-		expect(result.concentration.hhi).toBe(1);
+		expect(result.concentration.squaredProportionsSum).toBe(1);
 		expect(result.concentration.activeMarketCount).toBe(1);
 
 		// 95% utilization → very low liquidity
@@ -148,7 +148,7 @@ describe("analyzeVault — realistic scenarios", () => {
 
 		// Single collateral
 		expect(result.collateralDiversity.distinctCount).toBe(1);
-		expect(result.collateralDiversity.hhi).toBeCloseTo(1.0, 1);
+		expect(result.collateralDiversity.squaredProportionsSum).toBeCloseTo(1.0, 1);
 
 		// No governance protections
 		expect(result.governance.timelockTier).toBe("none");
@@ -197,8 +197,8 @@ describe("analyzeVault — realistic scenarios", () => {
 
 		const result = analyzeVault(vault);
 
-		// HHI well above equal-weight case of 0.33
-		expect(result.concentration.hhi).toBeGreaterThan(0.5);
+		// squaredProportionsSum well above equal-weight case of 0.33
+		expect(result.concentration.squaredProportionsSum).toBeGreaterThan(0.5);
 		// Top market should hold ~80%
 		expect(result.concentration.marketProportions[0]?.proportion).toBeCloseTo(
 			0.8,
@@ -232,8 +232,8 @@ describe("analyzeVault — realistic scenarios", () => {
 
 		const result = analyzeVault(vault);
 
-		// HHI ≈ 0.1 for 10 equal markets
-		expect(result.concentration.hhi).toBeCloseTo(0.1, 1);
+		// squaredProportionsSum ≈ 0.1 for 10 equal markets
+		expect(result.concentration.squaredProportionsSum).toBeCloseTo(0.1, 1);
 		expect(result.concentration.effectiveMarketCount).toBeCloseTo(10, 0);
 		expect(result.concentration.activeMarketCount).toBe(10);
 
@@ -395,7 +395,7 @@ describe("compareVaults — ranking correctness", () => {
 			addr: Address,
 		) => rankings.find((r) => r.vault === addr)?.rank;
 
-		// B ranks better on concentration (lower HHI)
+		// B ranks better on concentration (lower squaredProportionsSum)
 		expect(findRank(result.rankings.concentration, bAddr)).toBe(1);
 		expect(findRank(result.rankings.concentration, aAddr)).toBe(2);
 
