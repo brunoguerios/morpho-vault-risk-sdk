@@ -101,22 +101,40 @@ examples/
 
 ### Data flow
 
-```
-AccrualVault
-  ├─ computeConcentration()        → ConcentrationAnalysis
-  ├─ computeLiquidityCoverage()    → LiquidityCoverageAnalysis
-  ├─ computeCapHeadroom()          → CapHeadroomAnalysis
-  ├─ computeUtilizationExposure()  → UtilizationExposureAnalysis
-  ├─ computeLltvRange()            → LltvAnalysis
-  ├─ computeOracleConcentration()  → OracleAnalysis
-  ├─ computeCollateralDiversity()  → CollateralDiversityAnalysis
-  └─ computeGovernance()           → GovernanceAnalysis
-       │
-       ▼
-  VaultRiskAnalysis (all 8 combined)
-       │
-       ▼ (multiple vaults)
-  VaultComparison (analyses + per-metric rankings)
+```mermaid
+flowchart TD
+    subgraph Input
+        A["Vault address (hex)"]
+        B["AccrualVault object"]
+    end
+
+    subgraph fetch.ts ["fetch.ts (optional, requires viem)"]
+        F["fetchAndAnalyzeVault()"]
+        FC["fetchAndCompareVaults()"]
+    end
+
+    subgraph metrics ["metrics/ (pure functions)"]
+        M1["concentration"]
+        M2["liquidity"]
+        M3["cap-headroom"]
+        M4["utilization"]
+        M5["lltv"]
+        M6["oracle"]
+        M7["collateral"]
+        M8["governance"]
+    end
+
+    A --> F
+    A --> FC
+    F -- "fetches AccrualVault" --> B
+    FC -- "fetches AccrualVault[]" --> CMP
+
+    B --> AN["analyzeVault()"]
+    AN --> M1 & M2 & M3 & M4 & M5 & M6 & M7 & M8
+    M1 & M2 & M3 & M4 & M5 & M6 & M7 & M8 --> R["VaultRiskAnalysis"]
+
+    R --> CMP["compareVaults()"]
+    CMP --> CR["VaultComparison (analyses + rankings)"]
 ```
 
 ## Metrics reference
