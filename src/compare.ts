@@ -11,14 +11,26 @@ import type {
  * Rank vaults by a numeric extractor. Lower value = better rank (rank 1).
  * For metrics where higher is worse (e.g., squaredProportionsSum), pass the value directly.
  * For metrics where higher is better (e.g., liquidity), pass the negated value.
+ *
+ * Values are rounded to `precision` decimal places before comparison,
+ * so that ranks stay consistent with displayed values.
  */
 function rank(
 	analyses: VaultRiskAnalysis[],
 	extractor: (a: VaultRiskAnalysis) => number,
+	precision = 4,
 ): ReadonlyArray<RankingEntry> {
-	return [...analyses]
-		.sort((a, b) => extractor(a) - extractor(b))
-		.map((a, i) => ({ vault: a.vault, rank: i + 1 }));
+	const round = (v: number) => Math.round(v * 10 ** precision) / 10 ** precision;
+	const sorted = [...analyses].sort(
+		(a, b) => round(extractor(a)) - round(extractor(b)),
+	);
+	let currentRank = 1;
+	return sorted.map((a, i) => {
+		if (i > 0 && round(extractor(sorted[i - 1]!)) !== round(extractor(a))) {
+			currentRank = i + 1;
+		}
+		return { vault: a.vault, rank: currentRank };
+	});
 }
 
 /**
