@@ -20,6 +20,9 @@
 	"optionalDependencies": {
 		"@morpho-org/blue-sdk-viem": "^2.0.0"
 	},
+	"engines": {
+		"pnpm": ">=9"
+	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.0",
 		"@types/node": "^25.5.0",
