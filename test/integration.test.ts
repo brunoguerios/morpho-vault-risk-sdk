@@ -9,8 +9,6 @@ import {
 	resetAddressCounter,
 } from "./fixtures.js";
 
-const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000" as Address;
-
 describe("analyzeVault — realistic scenarios", () => {
 	beforeEach(() => resetAddressCounter());
 
@@ -97,7 +95,10 @@ describe("analyzeVault — realistic scenarios", () => {
 
 		// Collateral: 4 distinct collaterals
 		expect(result.collateralDiversity.distinctCount).toBe(4);
-		expect(result.collateralDiversity.squaredProportionsSum).toBeCloseTo(0.25, 1);
+		expect(result.collateralDiversity.squaredProportionsSum).toBeCloseTo(
+			0.25,
+			1,
+		);
 
 		// Governance: 7-day timelock, guardian and curator set
 		expect(result.governance.timelockTier).toBe("long");
@@ -148,7 +149,10 @@ describe("analyzeVault — realistic scenarios", () => {
 
 		// Single collateral
 		expect(result.collateralDiversity.distinctCount).toBe(1);
-		expect(result.collateralDiversity.squaredProportionsSum).toBeCloseTo(1.0, 1);
+		expect(result.collateralDiversity.squaredProportionsSum).toBeCloseTo(
+			1.0,
+			1,
+		);
 
 		// No governance protections
 		expect(result.governance.timelockTier).toBe("none");

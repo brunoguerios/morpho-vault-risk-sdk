@@ -10,8 +10,8 @@
  * Usage:
  *   npx tsx --env-file=.env examples/live-comparison.ts
  */
-import { type Address } from "@morpho-org/blue-sdk";
-import { createPublicClient, http } from "viem";
+import type { Address } from "@morpho-org/blue-sdk";
+import { http, createPublicClient } from "viem";
 import { mainnet } from "viem/chains";
 import { fetchAndCompareVaults } from "../src/index.js";
 import { toPercent } from "./utils.js";
@@ -26,7 +26,7 @@ const VAULTS: { name: string; address: Address }[] = [
 	{
 		name: "Gauntlet USDC Prime",
 		address: "0xdd0f28e19C1780eb6396170735D45153D261490d",
-	}
+	},
 ];
 
 if (process.env.ETH_RPC_URL !== undefined) {
@@ -54,12 +54,24 @@ const result = await fetchAndCompareVaults(addresses, client);
 for (const analysis of result.vaults) {
 	const name = labels.get(analysis.vault) ?? analysis.vault;
 	console.log(`=== ${name} ===`);
-	console.log(`  Concentration: ${analysis.concentration.squaredProportionsSum.toFixed(3)} (${analysis.concentration.activeMarketCount} markets)`);
-	console.log(`  Liquidity ratio: ${(analysis.liquidityCoverage.ratio * 100).toFixed(1)}%`);
-	console.log(`  Utilization (weighted): ${(analysis.utilizationExposure.weightedAvg * 100).toFixed(1)}%`);
-	console.log(`  LLTV weighted average: ${toPercent(analysis.lltv.weightedAvg)}`);
-	console.log(`  Oracle diversity: ${analysis.oracle.distinctCount} oracle(s), dominant=${analysis.oracle.isSingleOracleDominant}`);
-	console.log(`  Governance: timelock=${analysis.governance.timelockTier}, guardian=${analysis.governance.hasGuardian}`);
+	console.log(
+		`  Concentration: ${analysis.concentration.squaredProportionsSum.toFixed(3)} (${analysis.concentration.activeMarketCount} markets)`,
+	);
+	console.log(
+		`  Liquidity ratio: ${(analysis.liquidityCoverage.ratio * 100).toFixed(1)}%`,
+	);
+	console.log(
+		`  Utilization (weighted): ${(analysis.utilizationExposure.weightedAvg * 100).toFixed(1)}%`,
+	);
+	console.log(
+		`  LLTV weighted average: ${toPercent(analysis.lltv.weightedAvg)}`,
+	);
+	console.log(
+		`  Oracle diversity: ${analysis.oracle.distinctCount} oracle(s), dominant=${analysis.oracle.isSingleOracleDominant}`,
+	);
+	console.log(
+		`  Governance: timelock=${analysis.governance.timelockTier}, guardian=${analysis.governance.hasGuardian}`,
+	);
 	console.log();
 }
 

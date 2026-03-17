@@ -3,11 +3,11 @@
  *
  * Demonstrates how to use `compareVaults` to rank multiple vaults
  * across different risk metrics. Rank 1 = best (least risky).
- * 
+ *
  * Usage:
  *   npx tsx examples/compare-vaults.ts
  */
-import { type Address } from "@morpho-org/blue-sdk";
+import type { Address } from "@morpho-org/blue-sdk";
 import { compareVaults } from "../src/index.js";
 import { createMockVault, randomAddress } from "../test/fixtures.js";
 
@@ -80,7 +80,9 @@ console.log("=== Vault Rankings (1 = best) ===\n");
 for (const [metric, rankings] of Object.entries(result.rankings)) {
 	console.log(`${metric}:`);
 	for (const entry of rankings) {
-		console.log(`  #${entry.rank} — ${labels.get(entry.vault)} (${entry.vault.slice(0, 10)}...)`);
+		console.log(
+			`  #${entry.rank} — ${labels.get(entry.vault)} (${entry.vault.slice(0, 10)}...)`,
+		);
 	}
 }
 

@@ -1,28 +1,28 @@
 {
-  "name": "@morpho-org/vault-risk-sdk",
-  "version": "0.1.0",
-  "description": "Quantifiable risk metrics for Morpho MetaMorpho vaults",
-  "type": "module",
-  "main": "src/index.ts",
-  "scripts": {
-    "build": "tsc --noEmit",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "lint": "biome check src/ test/"
-  },
-  "dependencies": {
-    "@morpho-org/blue-sdk": "^2.0.0"
-  },
-  "peerDependencies": {
-    "viem": "^2.41.0"
-  },
-  "optionalDependencies": {
-    "@morpho-org/blue-sdk-viem": "^2.0.0"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^1.9.0",
-    "@types/node": "^25.5.0",
-    "typescript": "^5.9.3",
-    "vitest": "^4.0.15"
-  }
+	"name": "@morpho-org/vault-risk-sdk",
+	"version": "0.1.0",
+	"description": "Quantifiable risk metrics for Morpho MetaMorpho vaults",
+	"type": "module",
+	"main": "src/index.ts",
+	"scripts": {
+		"build": "tsc --noEmit",
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"lint": "biome check src/ test/"
+	},
+	"dependencies": {
+		"@morpho-org/blue-sdk": "^2.0.0"
+	},
+	"peerDependencies": {
+		"viem": "^2.41.0"
+	},
+	"optionalDependencies": {
+		"@morpho-org/blue-sdk-viem": "^2.0.0"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^1.9.0",
+		"@types/node": "^25.5.0",
+		"typescript": "^5.9.3",
+		"vitest": "^4.0.15"
+	}
 }

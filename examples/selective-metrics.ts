@@ -4,7 +4,7 @@
  * Shows how to use individual metric functions when you only need
  * a subset of the full analysis. This avoids computing unnecessary
  * metrics and keeps the result types focused.
- * 
+ *
  * Usage:
  *   npx tsx examples/selective-metrics.ts
  */
@@ -14,7 +14,7 @@ import {
 	computeLiquidityCoverage,
 	computeUtilizationExposure,
 } from "../src/index.js";
-import { createMockVault, randomAddress } from "../test/fixtures.js";
+import { createMockVault } from "../test/fixtures.js";
 
 const vault = createMockVault({
 	timelock: 0n, // no timelock
@@ -43,13 +43,14 @@ if (concentration.squaredProportionsSum > 0.5) {
 }
 
 if (governance.timelockTier === "none") {
-	console.log("WARNING: No timelock — governance changes take effect immediately");
+	console.log(
+		"WARNING: No timelock — governance changes take effect immediately",
+	);
 }
 
 if (liquidity.ratio < 0.1) {
 	console.log(
-		`WARNING: Low liquidity — only ${(liquidity.ratio * 100).toFixed(1)}% of assets ` +
-			"can be withdrawn instantly",
+		`WARNING: Low liquidity — only ${(liquidity.ratio * 100).toFixed(1)}% of assets can be withdrawn instantly`,
 	);
 }
 

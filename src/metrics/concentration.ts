@@ -39,7 +39,8 @@ export function computeConcentration(
 		0,
 	);
 	const activeMarketCount = proportions.length;
-	const effectiveMarketCount = squaredProportionsSum > 0 ? 1 / squaredProportionsSum : 0;
+	const effectiveMarketCount =
+		squaredProportionsSum > 0 ? 1 / squaredProportionsSum : 0;
 
 	return {
 		squaredProportionsSum,

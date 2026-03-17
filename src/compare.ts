@@ -20,13 +20,15 @@ function rank(
 	extractor: (a: VaultRiskAnalysis) => number,
 	precision = 4,
 ): ReadonlyArray<RankingEntry> {
-	const round = (v: number) => Math.round(v * 10 ** precision) / 10 ** precision;
+	const round = (v: number) =>
+		Math.round(v * 10 ** precision) / 10 ** precision;
 	const sorted = [...analyses].sort(
 		(a, b) => round(extractor(a)) - round(extractor(b)),
 	);
 	let currentRank = 1;
 	return sorted.map((a, i) => {
-		if (i > 0 && round(extractor(sorted[i - 1]!)) !== round(extractor(a))) {
+		const prev = sorted[i - 1];
+		if (i > 0 && prev && round(extractor(prev)) !== round(extractor(a))) {
 			currentRank = i + 1;
 		}
 		return { vault: a.vault, rank: currentRank };
@@ -53,7 +55,10 @@ export function compareVaults(vaults: AccrualVault[]): VaultComparison {
 		vaults: analyses,
 		rankings: {
 			// Lower squaredProportionsSum = more diversified = better
-			concentration: rank(analyses, (a) => a.concentration.squaredProportionsSum),
+			concentration: rank(
+				analyses,
+				(a) => a.concentration.squaredProportionsSum,
+			),
 			// Higher liquidity ratio = better (negate for ascending sort)
 			liquidityCoverage: rank(analyses, (a) => -a.liquidityCoverage.ratio),
 			// Lower weighted avg LLTV = more conservative = better

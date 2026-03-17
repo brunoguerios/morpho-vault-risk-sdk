@@ -1,10 +1,6 @@
 import { beforeEach, describe, expect, test } from "vitest";
 import { compareVaults } from "../src/compare.js";
-import {
-	createMockVault,
-	randomAddress,
-	resetAddressCounter,
-} from "./fixtures.js";
+import { createMockVault, resetAddressCounter } from "./fixtures.js";
 
 describe("compareVaults", () => {
 	beforeEach(() => resetAddressCounter());
@@ -31,7 +27,7 @@ describe("compareVaults", () => {
 		const concentratedRank = concRankings.find(
 			(r) => r.vault === concentrated.address,
 		);
-		expect(diversifiedRank?.rank).toBeLessThan(concentratedRank?.rank);
+		expect(diversifiedRank!.rank).toBeLessThan(concentratedRank!.rank);
 	});
 
 	test("ranks longer timelock as better governance", () => {
@@ -52,7 +48,7 @@ describe("compareVaults", () => {
 		const govRankings = result.rankings.governance;
 		const longRank = govRankings.find((r) => r.vault === longTimelock.address);
 		const noRank = govRankings.find((r) => r.vault === noTimelock.address);
-		expect(longRank?.rank).toBeLessThan(noRank?.rank);
+		expect(longRank!.rank).toBeLessThan(noRank!.rank);
 	});
 
 	test("all ranking arrays have correct length", () => {

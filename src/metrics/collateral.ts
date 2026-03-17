@@ -21,7 +21,9 @@ export function computeCollateralDiversity(
 			address,
 			proportion,
 			marketCount: collateralAllocation.markets.size,
-			lltvs: [...collateralAllocation.lltvs].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0)),
+			lltvs: [...collateralAllocation.lltvs].sort((a, b) =>
+				a < b ? -1 : a > b ? 1 : 0,
+			),
 		});
 	}
 

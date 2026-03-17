@@ -1,16 +1,40 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.0/schema.json",
-  "organizeImports": {
-    "enabled": true
-  },
-  "linter": {
-    "enabled": true,
-    "rules": {
-      "recommended": true
-    }
-  },
-  "formatter": {
-    "enabled": true,
-    "indentStyle": "tab"
-  }
+	"$schema": "https://biomejs.dev/schemas/1.9.3/schema.json",
+	"files": {
+		"ignore": ["lib", ".vscode", "cache", "coverage"]
+	},
+	"formatter": {
+		"enabled": true,
+		"formatWithErrors": false,
+		"indentStyle": "tab"
+	},
+	"organizeImports": {
+		"enabled": true
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"complexity": {
+				"noForEach": "off",
+				"noBannedTypes": "off"
+			},
+			"correctness": {
+				"noUnusedImports": "error",
+				"noUnusedVariables": "error",
+				"useExhaustiveDependencies": "error"
+			},
+			"style": {
+				"noParameterAssign": "off",
+				"useBlockStatements": "off",
+				"noUnusedTemplateLiteral": "off",
+				"noNonNullAssertion": "off"
+			},
+			"suspicious": {
+				"useGetterReturn": "off",
+				"noAssignInExpressions": "off",
+				"noFallthroughSwitchClause": "off"
+			}
+		}
+	}
 }
