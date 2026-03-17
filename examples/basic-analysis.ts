@@ -9,6 +9,7 @@
  */
 import { analyzeVault } from "../src/index.js";
 import { createMockVault, randomAddress } from "../test/fixtures.js";
+import { toPercent } from "./utils.js";
 
 // --- Build a realistic 3-market vault ---
 
@@ -69,11 +70,11 @@ console.log("\n=== Utilization Exposure ===");
 console.log(`  Weighted avg: ${(result.utilizationExposure.weightedAvg * 100).toFixed(1)}%`);
 console.log(`  Max single market: ${(result.utilizationExposure.max * 100).toFixed(1)}%`);
 
-// LLTV: liquidation loan-to-value thresholds across markets (WAD-scaled)
+// LLTV: liquidation loan-to-value thresholds across markets
 console.log("\n=== LLTV Range ===");
-console.log(`  Min: ${result.lltv.min}`);
-console.log(`  Max: ${result.lltv.max}`);
-console.log(`  Weighted avg: ${result.lltv.weightedAvg}`);
+console.log(`  Min: ${toPercent(result.lltv.min)}`);
+console.log(`  Max: ${toPercent(result.lltv.max)}`);
+console.log(`  Weighted avg: ${toPercent(result.lltv.weightedAvg)}`);
 console.log(`  Distinct values: ${result.lltv.distinctValues.length}`);
 
 // Oracle diversity: are assets spread across multiple price oracles?
@@ -91,7 +92,7 @@ console.log("\n=== Governance ===");
 console.log(`  Timelock: ${result.governance.timelockSeconds}s (${result.governance.timelockTier})`);
 console.log(`  Guardian set: ${result.governance.hasGuardian}`);
 console.log(`  Curator set: ${result.governance.hasCurator}`);
-console.log(`  Fee: ${result.governance.fee}`);
+console.log(`  Fee: ${toPercent(result.governance.fee)}`);
 
 // Cap headroom: how close are markets to their allocation caps?
 console.log("\n=== Cap Headroom ===");

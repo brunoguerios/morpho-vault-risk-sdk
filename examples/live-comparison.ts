@@ -14,6 +14,7 @@ import { type Address } from "@morpho-org/blue-sdk";
 import { createPublicClient, http } from "viem";
 import { mainnet } from "viem/chains";
 import { fetchAndCompareVaults } from "../src/index.js";
+import { toPercent } from "./utils.js";
 
 // Top Morpho vaults by deposits (as of early 2026).
 // In production you'd discover these dynamically via the Morpho GraphQL API.
@@ -56,7 +57,7 @@ for (const analysis of result.vaults) {
 	console.log(`  Concentration: ${analysis.concentration.squaredProportionsSum.toFixed(3)} (${analysis.concentration.activeMarketCount} markets)`);
 	console.log(`  Liquidity ratio: ${(analysis.liquidityCoverage.ratio * 100).toFixed(1)}%`);
 	console.log(`  Utilization (weighted): ${(analysis.utilizationExposure.weightedAvg * 100).toFixed(1)}%`);
-	console.log(`  LLTV range: ${analysis.lltv.min} — ${analysis.lltv.max}`);
+	console.log(`  LLTV weighted average: ${toPercent(analysis.lltv.weightedAvg)}`);
 	console.log(`  Oracle diversity: ${analysis.oracle.distinctCount} oracle(s), dominant=${analysis.oracle.isSingleOracleDominant}`);
 	console.log(`  Governance: timelock=${analysis.governance.timelockTier}, guardian=${analysis.governance.hasGuardian}`);
 	console.log();
